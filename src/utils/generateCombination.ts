@@ -5,7 +5,7 @@ const generateCombination = (
   fourthRow: string[],
   fifthRow: string[]
 ) => {
-  let allCombination: any = [];
+  let allCombinations: any = [];
 
   for (let index = 0; index <= 4; index++) {
     const columnsValidRows = [
@@ -15,7 +15,7 @@ const generateCombination = (
       fourthRow[index],
       fifthRow[index],
     ];
-    allCombination = [...allCombination, columnsValidRows];
+    allCombinations = [...allCombinations, columnsValidRows];
   }
 
   const diagonalValidRows: string[] = [
@@ -33,8 +33,8 @@ const generateCombination = (
     fifthRow[0],
   ];
 
-  allCombination = [
-    ...allCombination,
+  allCombinations = [
+    ...allCombinations,
     diagonalValidRows,
     reverseDiagonalValidRows,
     firstRow,
@@ -44,7 +44,7 @@ const generateCombination = (
     fifthRow,
   ];
 
-  console.log(allCombination);
+  return allCombinations
 };
 
 export default generateCombination;

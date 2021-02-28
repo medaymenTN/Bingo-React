@@ -1,4 +1,6 @@
 import { IBingoCellDefinition } from "../containers/bingoBoardContainer/types";
+import { Player } from "../store/bingoStore/action.enum";
+import generateString from "./generateRandomString";
 
 const suffleArrayAndInjectObjectDefinition = (
   tab: string[],
@@ -17,7 +19,8 @@ const suffleArrayAndInjectObjectDefinition = (
       {
         content: element,
         isChecked: false,
-        randomIdentifer: "1",
+        randomIdentifer: generateString(),
+        Player:Player.UNKNOW
       },
     ];
   });
@@ -25,7 +28,8 @@ const suffleArrayAndInjectObjectDefinition = (
     finalArray.splice(2, 0, {
       content: "X",
       isChecked: true,
-      randomIdentifer: "12",
+      randomIdentifer: "X",
+      Player:Player.UNKNOW
     });
   }
 

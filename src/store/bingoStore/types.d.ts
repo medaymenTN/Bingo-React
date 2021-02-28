@@ -6,6 +6,8 @@ type IBingoBoardState = {
   firstPlayerCurrentCheckedCells: string[];
   secondPlayerCurrentCheckedCells: string[];
   winner: string;
+  currentPlayerRound:string
+  valueFromCurrentBingo:string
 };
 
 type IBingoActionType = ActionType<typeof actions>;

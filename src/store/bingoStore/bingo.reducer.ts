@@ -1,4 +1,5 @@
-import actionTypes from "./action.enum";
+import generateValueFromData from "../../utils/generateValueFromData";
+import {ActionTypes,Player} from "./action.enum";
 import { IBingoBoardState, IBingoActionType } from "./types";
 
 const INITIAL_STATE: IBingoBoardState = {
@@ -6,6 +7,8 @@ const INITIAL_STATE: IBingoBoardState = {
   possibleValidWinnerRows: [],
   secondPlayerCurrentCheckedCells: [],
   winner: "",
+  currentPlayerRound:Player.FIRST_PLAYER,
+  valueFromCurrentBingo:generateValueFromData([])
 };
 /**
  *
@@ -17,12 +20,19 @@ const bingoReducer = (
   action: IBingoActionType
 ): IBingoBoardState => {
   switch (action.type) {
-    case actionTypes.GENERATE_WINNER_COMBINATION:
+    case ActionTypes.GENERATE_WINNER_COMBINATION:
       return { ...state, possibleValidWinnerRows: action.payload };
-    case actionTypes.SET_FIRST_PLAYER_CURRENT_SELECTED_CELLS:
-      return { ...state, firstPlayerCurrentCheckedCells: action.payload };
-    case actionTypes.SET_SECOND_PLAYER_CURRENT_SELECTED_CELLS:
-      return { ...state, possibleValidWinnerRows: action.payload };
+    case ActionTypes.SET_FIRST_PLAYER_CURRENT_SELECTED_CELLS:
+      const updatedFirstPlayerState = [...state.firstPlayerCurrentCheckedCells,action.payload]
+      console.log({updatedFirstPlayerState})
+      return { ...state, firstPlayerCurrentCheckedCells:updatedFirstPlayerState };
+    case ActionTypes.SET_SECOND_PLAYER_CURRENT_SELECTED_CELLS:
+      const updatedSecondPlayerState = [...state.secondPlayerCurrentCheckedCells,action.payload]
+      return { ...state, secondPlayerCurrentCheckedCells: updatedSecondPlayerState };
+    case ActionTypes.UPDATE_CURRENT_PLAYER_ROUND:
+        return { ...state, currentPlayerRound: action.payload };
+    case ActionTypes.GENERATE_RANDOM_VALUE_FROM_DATA:
+        return { ...state, valueFromCurrentBingo: action.payload};  
     default:
       return state;
   }
