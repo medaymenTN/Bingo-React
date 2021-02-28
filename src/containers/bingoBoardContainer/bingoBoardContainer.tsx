@@ -42,6 +42,7 @@ const BingoBoardContainer = (props: IBingoBoardProps) => {
     firstPlayerCurrentCheckedCells,
     secondPlayerCurrentCheckedCells,
     currentPlayerRound,
+    possibleValidWinnerRows,
   } = props;
   // state declaration
   const classes = useStyles();
@@ -107,6 +108,15 @@ const BingoBoardContainer = (props: IBingoBoardProps) => {
   }, []);
 
   // Logic
+  const checkValidCombination = (currentPlayerSelectedValues) => {
+    let isWinner = false;
+    possibleValidWinnerRows.forEach((combination) => {
+      isWinner = combination.every((v) =>
+        currentPlayerSelectedValues.includes(v)
+      );
+      console.log(isWinner, { combination, currentPlayerSelectedValues });
+    });
+  };
   const handleStyleOnCellClick = (value: IBingoCellDefinition) => {
     if (value.Player === Player.UNKNOW) {
       return classes.paper;
@@ -130,8 +140,16 @@ const BingoBoardContainer = (props: IBingoBoardProps) => {
 
     if (currentPlayerRound === Player.FIRST_PLAYER) {
       dispatchSetFirstPlayerCurrentSelectedCells(currentSelectedValue.content);
+      checkValidCombination([
+        ...firstPlayerCurrentCheckedCells,
+        currentSelectedValue.content,
+      ]);
     } else {
       dispatchSetSecondPlayerCurrentSelectedCells(currentSelectedValue.content);
+      checkValidCombination([
+        ...secondPlayerCurrentCheckedCells,
+        currentSelectedValue.content,
+      ]);
     }
 
     const updatedRowState = rowState.map((element) =>
@@ -230,6 +248,7 @@ const mapStateToProps: MapStateToPropsParam<
     firstPlayerCurrentCheckedCells: state.bingo.firstPlayerCurrentCheckedCells,
     secondPlayerCurrentCheckedCells:
       state.bingo.secondPlayerCurrentCheckedCells,
+    possibleValidWinnerRows: state.bingo.possibleValidWinnerRows,
   };
 };
 

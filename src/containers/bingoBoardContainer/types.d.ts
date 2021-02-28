@@ -4,6 +4,7 @@ type IBingoBoardStateProps = {
   currentPlayerRound:string,
   firstPlayerCurrentCheckedCells:string[],
   secondPlayerCurrentCheckedCells:string[],
+  possibleValidWinnerRows:any[]
 };
 type IBingoBoardOwnProps = {};
 type IBingoBoardDispatchProps = {

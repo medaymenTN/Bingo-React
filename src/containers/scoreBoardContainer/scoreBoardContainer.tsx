@@ -1,3 +1,4 @@
+import { Paper } from "@material-ui/core";
 import React from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import {
@@ -12,6 +13,7 @@ import {
 } from "../../store/bingoStore/bingo.action.creators";
 import RootState from "../../store/types";
 import generateValueFromData from "../../utils/generateValueFromData";
+import useStyles from "./style";
 import {
   IScoreBoardContainerProps,
   IScoreBoardContainerStateProps,
@@ -19,6 +21,7 @@ import {
 } from "./types";
 
 const ScoreBoardContainer = (props: IScoreBoardContainerProps) => {
+  const classes = useStyles();
   const {
     currentPlayerRound,
     dispatchGenerateValueFromData,
@@ -40,12 +43,12 @@ const ScoreBoardContainer = (props: IScoreBoardContainerProps) => {
     ];
     const value = generateValueFromData(combinedArrays);
 
-    dispatchGenerateValueFromData(value);
-    dispatchUpdateCurrentPlayer(currentPlayer);
+    //dispatchGenerateValueFromData(value);
+    // dispatchUpdateCurrentPlayer(currentPlayer);
   };
 
   return (
-    <div>
+    <Paper className={classes.root}>
       <h1>
         {currentPlayerRound === Player.FIRST_PLAYER ? "Player 1 " : "Player 2 "}
         select cell {valueFromCurrentBingo}
@@ -65,7 +68,7 @@ const ScoreBoardContainer = (props: IScoreBoardContainerProps) => {
       >
         {({ remainingTime }) => remainingTime}
       </CountdownCircleTimer>
-    </div>
+    </Paper>
   );
 };
 
