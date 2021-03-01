@@ -20,16 +20,16 @@ const suffleArrayAndInjectObjectDefinition = (
         content: element,
         isChecked: false,
         randomIdentifer: generateString(),
-        Player:Player.UNKNOW
+        Player:Player.UNKNOWN
       },
     ];
   });
-  if (shouldInjectValidCell) {
+  if (shouldInjectValidCell) { 
     finalArray.splice(2, 0, {
       content: "X",
       isChecked: true,
       randomIdentifer: "X",
-      Player:Player.UNKNOW
+      Player:Player.UNKNOWN
     });
   }
 

@@ -1,4 +1,4 @@
-import { Paper } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 import React from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import {
@@ -29,6 +29,7 @@ const ScoreBoardContainer = (props: IScoreBoardContainerProps) => {
     firstPlayerCurrentCheckedCells,
     secondPlayerCurrentCheckedCells,
     valueFromCurrentBingo,
+    counterIsPlaying,
   } = props;
 
   const handleCompleteTimerEvent = () => {
@@ -43,8 +44,8 @@ const ScoreBoardContainer = (props: IScoreBoardContainerProps) => {
     ];
     const value = generateValueFromData(combinedArrays);
 
-    //dispatchGenerateValueFromData(value);
-    // dispatchUpdateCurrentPlayer(currentPlayer);
+    dispatchGenerateValueFromData(value);
+    dispatchUpdateCurrentPlayer(currentPlayer);
   };
 
   return (
@@ -53,21 +54,30 @@ const ScoreBoardContainer = (props: IScoreBoardContainerProps) => {
         {currentPlayerRound === Player.FIRST_PLAYER ? "Player 1 " : "Player 2 "}
         select cell {valueFromCurrentBingo}
       </h1>
-      <CountdownCircleTimer
-        isPlaying
-        duration={10}
-        onComplete={() => {
-          handleCompleteTimerEvent();
-          return [true, 1000];
-        }}
-        colors={[
-          ["#004777", 0.33],
-          ["#F7B801", 0.33],
-          ["#A30000", 0.33],
-        ]}
-      >
-        {({ remainingTime }) => remainingTime}
-      </CountdownCircleTimer>
+      <div className={classes.counter}>
+        <CountdownCircleTimer
+          isPlaying={counterIsPlaying}
+          duration={10}
+          onComplete={() => {
+            handleCompleteTimerEvent();
+            return [true, 1000];
+          }}
+          colors={[
+            ["#004777", 0.33],
+            ["#F7B801", 0.33],
+            ["#A30000", 0.33],
+          ]}
+        >
+          {({ remainingTime }) => remainingTime}
+        </CountdownCircleTimer>
+      </div>
+
+      <h2>Instructions :</h2>
+      <Typography>
+        this bingo board could be played between 2 players each time the
+        countdown ends the next player should pick the generated number, colors
+        blue and red will define each player
+      </Typography>
     </Paper>
   );
 };
@@ -97,6 +107,7 @@ const mapStateToProps: MapStateToPropsParam<
       state.bingo.secondPlayerCurrentCheckedCells,
     currentPlayerRound: state.bingo.currentPlayerRound,
     valueFromCurrentBingo: state.bingo.valueFromCurrentBingo,
+    counterIsPlaying: state.bingo.counterIsPlaying,
   };
 };
 

@@ -1,5 +1,5 @@
 import { action } from "typesafe-actions";
-import {ActionTypes, Player} from "./action.enum";
+import { ActionTypes, Player } from "./action.enum";
 
 const generateValidCombination = (validCells: any) =>
   action(ActionTypes.GENERATE_WINNER_COMBINATION, validCells);
@@ -13,10 +13,13 @@ const setSecondPlayerCurrentSelectedCells = (selectedValue: string) =>
 const updateCurrentPlayer = (player: Player) =>
   action(ActionTypes.UPDATE_CURRENT_PLAYER_ROUND, player);
 
-  const generateBingoValueFromData = (value:string) =>
+const generateBingoValueFromData = (value: string) =>
   action(ActionTypes.GENERATE_RANDOM_VALUE_FROM_DATA, value);
 
+const stopCounter = () => action(ActionTypes.STOP_COUNTER);
+
 export {
+  stopCounter,
   updateCurrentPlayer,
   generateBingoValueFromData,
   generateValidCombination,

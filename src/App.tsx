@@ -10,10 +10,10 @@ function App() {
   return (
     <Provider store={store}>
       <Grid container direction="row">
-        <Grid container xs={6}>
+        <Grid container md={6} xs={12}>
           <ScoreBoardContainer />
         </Grid>
-        <Grid container xs={6}>
+        <Grid container md={6} xs={12}>
           <BingoBoardContainer />
         </Grid>
       </Grid>

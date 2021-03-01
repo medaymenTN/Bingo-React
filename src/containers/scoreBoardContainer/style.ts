@@ -6,6 +6,10 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(4),
     flexGrow: 1,
   },
+  counter:{
+    display:"flex",
+    justifyContent:"center"
+  }
 
 }));
 

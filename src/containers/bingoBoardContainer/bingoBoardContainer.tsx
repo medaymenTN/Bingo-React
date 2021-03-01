@@ -5,6 +5,7 @@ import {
   fourthRow,
   fifthRow,
 } from "../../data/data";
+
 import {
   IBingoCellDefinition,
   IBingoBoardDispatchProps,
@@ -27,11 +28,14 @@ import {
   generateValidCombination,
   setFirstPlayerCurrentSelectedCells,
   setSecondPlayerCurrentSelectedCells,
+  stopCounter,
 } from "../../store/bingoStore/bingo.action.creators";
 import { AnyAction, Dispatch } from "redux";
 import generateCombination from "../../utils/generateCombination";
 import bindDefinitionToArrayOfValues from "../../utils/bindDefinitionToArrayOfValues";
 import { Player } from "../../store/bingoStore/action.enum";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 const BingoBoardContainer = (props: IBingoBoardProps) => {
   //props
@@ -43,10 +47,12 @@ const BingoBoardContainer = (props: IBingoBoardProps) => {
     secondPlayerCurrentCheckedCells,
     currentPlayerRound,
     possibleValidWinnerRows,
+    dispatchStopCounter,
   } = props;
   // state declaration
   const classes = useStyles();
-
+  const { width, height } = useWindowSize();
+  const [weHaveAwinner, setWeHaveAwinner] = React.useState<boolean>(false);
   const [firstRowState, setFirstRowState] = React.useState<
     IBingoCellDefinition[]
   >([]);
@@ -114,11 +120,14 @@ const BingoBoardContainer = (props: IBingoBoardProps) => {
       isWinner = combination.every((v) =>
         currentPlayerSelectedValues.includes(v)
       );
-      console.log(isWinner, { combination, currentPlayerSelectedValues });
+      if (isWinner) {
+        setWeHaveAwinner(true);
+        dispatchStopCounter();
+      }
     });
   };
   const handleStyleOnCellClick = (value: IBingoCellDefinition) => {
-    if (value.Player === Player.UNKNOW) {
+    if (value.Player === Player.UNKNOWN) {
       return classes.paper;
     } else
       return value.isChecked && value.Player === Player.FIRST_PLAYER
@@ -164,9 +173,16 @@ const BingoBoardContainer = (props: IBingoBoardProps) => {
   // UI
   return (
     <div className={classes.root}>
-      <Grid container spacing={1} direction="row" xs={12}>
+      {weHaveAwinner && <Confetti width={width} height={height} />}
+      <Grid
+        container
+        spacing={1}
+        direction="row"
+        xs={12}
+        className={classes.container}
+      >
         {firstRowState.map((value: IBingoCellDefinition, index: number) => (
-          <Grid item key={`cell-${index}`}>
+          <Grid item key={`cell-${index}`} xs={2}>
             <Paper
               onClick={() =>
                 handleCellClick(setFirstRowState, firstRowState, value)
@@ -178,9 +194,15 @@ const BingoBoardContainer = (props: IBingoBoardProps) => {
           </Grid>
         ))}
       </Grid>
-      <Grid container spacing={1} direction="row" xs={12}>
+      <Grid
+        container
+        spacing={1}
+        direction="row"
+        xs={12}
+        className={classes.container}
+      >
         {secondRowState.map((value: IBingoCellDefinition, index: number) => (
-          <Grid item key={`cell-${index}`}>
+          <Grid item key={`cell-${index}`} xs={2}>
             <Paper
               onClick={() =>
                 handleCellClick(setSecondRowState, secondRowState, value)
@@ -192,9 +214,15 @@ const BingoBoardContainer = (props: IBingoBoardProps) => {
           </Grid>
         ))}
       </Grid>
-      <Grid container spacing={1} direction="row" xs={12}>
+      <Grid
+        container
+        spacing={1}
+        direction="row"
+        xs={12}
+        className={classes.container}
+      >
         {thirdRowState.map((value: IBingoCellDefinition, index: number) => (
-          <Grid item key={`cell-${index}`}>
+          <Grid item key={`cell-${index}`} xs={2}>
             <Paper
               onClick={() =>
                 handleCellClick(setThirdRowState, thirdRowState, value)
@@ -206,9 +234,15 @@ const BingoBoardContainer = (props: IBingoBoardProps) => {
           </Grid>
         ))}
       </Grid>
-      <Grid container spacing={1} direction="row" xs={12}>
+      <Grid
+        container
+        spacing={1}
+        direction="row"
+        xs={12}
+        className={classes.container}
+      >
         {fourthRowState.map((value: IBingoCellDefinition, index: number) => (
-          <Grid item key={`cell-${index}`}>
+          <Grid item key={`cell-${index}`} xs={2}>
             <Paper
               onClick={() =>
                 handleCellClick(setFourthRowState, fourthRowState, value)
@@ -220,9 +254,15 @@ const BingoBoardContainer = (props: IBingoBoardProps) => {
           </Grid>
         ))}
       </Grid>
-      <Grid container spacing={1} direction="row" xs={12}>
+      <Grid
+        container
+        spacing={1}
+        direction="row"
+        xs={12}
+        className={classes.container}
+      >
         {fifthRowState.map((value: IBingoCellDefinition, index: number) => (
-          <Grid item key={`cell-${index}`}>
+          <Grid item key={`cell-${index}`} xs={2}>
             <Paper
               onClick={() =>
                 handleCellClick(setFifthRowState, fifthRowState, value)
@@ -265,6 +305,9 @@ const mapDispatchToProps: MapDispatchToPropsParam<
     },
     dispatchSetSecondPlayerCurrentSelectedCells: (cell) => {
       return dispatch(setSecondPlayerCurrentSelectedCells(cell));
+    },
+    dispatchStopCounter: () => {
+      dispatch(stopCounter());
     },
   };
 };

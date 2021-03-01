@@ -1,5 +1,5 @@
 import generateValueFromData from "../../utils/generateValueFromData";
-import {ActionTypes,Player} from "./action.enum";
+import { ActionTypes, Player } from "./action.enum";
 import { IBingoBoardState, IBingoActionType } from "./types";
 
 const INITIAL_STATE: IBingoBoardState = {
@@ -7,8 +7,9 @@ const INITIAL_STATE: IBingoBoardState = {
   possibleValidWinnerRows: [],
   secondPlayerCurrentCheckedCells: [],
   winner: "",
-  currentPlayerRound:Player.FIRST_PLAYER,
-  valueFromCurrentBingo:generateValueFromData([])
+  currentPlayerRound: Player.FIRST_PLAYER,
+  valueFromCurrentBingo: generateValueFromData([]),
+  counterIsPlaying: true,
 };
 /**
  *
@@ -23,15 +24,29 @@ const bingoReducer = (
     case ActionTypes.GENERATE_WINNER_COMBINATION:
       return { ...state, possibleValidWinnerRows: action.payload };
     case ActionTypes.SET_FIRST_PLAYER_CURRENT_SELECTED_CELLS:
-      const updatedFirstPlayerState = [...state.firstPlayerCurrentCheckedCells,action.payload]
-      return { ...state, firstPlayerCurrentCheckedCells:updatedFirstPlayerState };
+      const updatedFirstPlayerState = [
+        ...state.firstPlayerCurrentCheckedCells,
+        action.payload,
+      ];
+      return {
+        ...state,
+        firstPlayerCurrentCheckedCells: updatedFirstPlayerState,
+      };
     case ActionTypes.SET_SECOND_PLAYER_CURRENT_SELECTED_CELLS:
-      const updatedSecondPlayerState = [...state.secondPlayerCurrentCheckedCells,action.payload]
-      return { ...state, secondPlayerCurrentCheckedCells: updatedSecondPlayerState };
+      const updatedSecondPlayerState = [
+        ...state.secondPlayerCurrentCheckedCells,
+        action.payload,
+      ];
+      return {
+        ...state,
+        secondPlayerCurrentCheckedCells: updatedSecondPlayerState,
+      };
     case ActionTypes.UPDATE_CURRENT_PLAYER_ROUND:
-        return { ...state, currentPlayerRound: action.payload };
+      return { ...state, currentPlayerRound: action.payload };
     case ActionTypes.GENERATE_RANDOM_VALUE_FROM_DATA:
-        return { ...state, valueFromCurrentBingo: action.payload};  
+      return { ...state, valueFromCurrentBingo: action.payload };
+    case ActionTypes.STOP_COUNTER:
+      return { ...state, counterIsPlaying: false };
     default:
       return state;
   }
