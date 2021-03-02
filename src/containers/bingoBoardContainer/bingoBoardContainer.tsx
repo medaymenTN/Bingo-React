@@ -224,9 +224,11 @@ const BingoBoardContainer = (props: IBingoBoardProps) => {
         {thirdRowState.map((value: IBingoCellDefinition, index: number) => (
           <Grid item key={`cell-${index}`} xs={2}>
             <Paper
-              onClick={() =>
-                handleCellClick(setThirdRowState, thirdRowState, value)
-              }
+              onClick={() => {
+                if (value.content !== "X") {
+                  handleCellClick(setThirdRowState, thirdRowState, value);
+                }
+              }}
               className={handleStyleOnCellClick(value)}
             >
               {value.content}
